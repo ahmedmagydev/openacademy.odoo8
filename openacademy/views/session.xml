@@ -1,0 +1,108 @@
+
+<openerp>
+
+    <data>
+    
+   
+        <record id="openacademy.session_view_tree" model="ir.ui.view">
+            <field name="name">openacademy.session.view.tree</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <tree  >
+                  <field name="name"/>
+                  <field name="seats"/>
+                  <!-- <field name="active" /> -->
+                  <!-- <field name="taken_seats" /> -->
+                  <!-- <field name="duration" invisible="1"/>  -->
+                  <!-- <field name="start_date"/> -->
+
+                </tree>
+            </field>
+        </record>
+        
+    
+       
+        <record model="ir.ui.view" id="openacademy_session_form_view">
+            <field name="name">session.form</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <form string="Session Form">
+                  <header>
+                   <button string="Draft" name="draft" type="workflow" state='confirmed,done' />
+                   <button string="Confirmed" name="confirmed" type="workflow" state='draft,done' />
+                   <button string="Done" name="done" type="workflow" state='draft,confirmed' />
+                  
+                  
+                  </header>
+
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="start_date"/>
+                            <field name="instructor_id" />
+                            
+                        </group>
+                        <group>
+                         <field name="duration"/>
+                         <field name="seats"/>
+                         <field name="taken_seats" />
+                         <field name="course_id" />
+                            
+                        </group>
+                        <label for='attendee_ids'/>
+                        <field name="attendee_ids" />
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="openacademy_session_action" model="ir.actions.act_window">
+            <field name="name">session</field>
+            <field name="res_model">openacademy.session</field>
+            <field name="view_mode">tree,form</field>
+            
+           </record>
+        <menuitem
+            id="openacademy.session_menu"
+            name="sessions"
+            parent="openacademy_menu"
+            action="openacademy_session_action"
+            />
+    
+        
+
+          <record id="wizard_from_view" model="ir.ui.view">
+            <field name="name">wizard.form</field>
+            <field name="model">openacademy.wizard</field>
+            <field name="arch" type="xml">
+            <form string=" Add Attendees">
+            <group>
+             <field name="session_id" />
+             <field name="attendee_ids" />
+            </group>
+
+            <footer>
+            
+            
+            <button string="subscribe" name="subscribe" type="object" class="oe_highlight"/>
+            
+            
+            </footer>
+            </form>
+            </field>
+          </record>
+
+            <act_window id="launch_session_wizard"
+                    name="Add Attendees"
+                    src_model="openacademy.session"
+                    res_model="openacademy.wizard"
+                    view_mode="form"
+                    target="new"
+                    key2="client_action_multi"/>
+
+    
+    </data>
+    
+
+</openerp>
